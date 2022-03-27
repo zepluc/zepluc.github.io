@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>我的第一次尝试</title>
+    <url>/2022/03/27/12-18-04/</url>
+    <content><![CDATA[<h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h1><h2 id="hello-world-1"><a href="#hello-world-1" class="headerlink" title="hello world"></a>hello world</h2><h3 id="hello-world-2"><a href="#hello-world-2" class="headerlink" title="hello world"></a>hello world</h3><p>hello world<br><strong>hello world</strong><br><em>hello world</em><br><del>hello world</del><br>&#x3D;&#x3D;hello world&#x3D;&#x3D;</p>
+<ul>
+<li>first<ul>
+<li>1.1<ul>
+<li>1.2</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>second</li>
+</ul>
+<ol>
+<li>好神奇<ol>
+<li>太神奇了</li>
+<li>我是说<em>真的</em>很<strong>神奇</strong></li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>鲁迅曾说</p>
+</blockquote>
+<p><code>printf(&quot;hello world&quot;)</code>这样可以继续在一行内打字</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">printf(&quot;hello world&quot;);</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://theme-next.js.org/docs/">传送！</a><br><img src="/images/avatar.jpg" alt="一张图"></p>
+<p>如果在这里我写了一段话<br>如果我不换行<br>那么我要换一行</p>
+<hr>
+<p>就是这样！</p>
+<p><img src="/images/2022-03-27-12-43-38.jpg" alt="这是我粘贴来的图片！"></p>
+<p>下面是一些数学公式的尝试<br>$x^2+y^2&#x3D;1$<br>公式块:</p>
+<p>$$<br>\begin{cases}<br>x&#x3D;\rho\cos\theta \<br>y&#x3D;\rho\sin\theta \<br>\end{cases}<br>$$</p>
+<p>$$x^3+y^3&#x3D;\theta$$两个好像可以居中<br>$$\mathbb{R}$$<br>$$\frac{1}{2}$$<br>$$\sqrt{1}$$</p>
+]]></content>
+      <tags>
+        <tag>尝试</tag>
+      </tags>
+  </entry>
+</search>
