@@ -24,7 +24,7 @@
 <meta property="og:description" content="线性表  数据对象： \(D\) &#x3D; {\(a_i|a_i\in ElemSet,i&#x3D;1,2\cdots ,n,n\ge 0\)} 数据关系： \(R_1\)&#x3D;{\(&lt;a_i,a_{i-1}&gt;\)|\(a_i,a_{i-1}\in D,i&#x3D;1,2,\cdots n\)} 基本操作：  InitLise(&amp;L) ListLenth(L) GetElem(L,i,">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-03-27T15:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-31T09:08:07.251Z">
+<meta property="article:modified_time" content="2022-04-01T13:53:15.200Z">
 <meta property="article:author" content="zepluc">
 <meta property="article:tag" content="数据结构">
 <meta name="twitter:card" content="summary_large_image">
@@ -183,7 +183,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3k 字
+      3.2k 字
     </span>
   
 
@@ -192,7 +192,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      26 分钟
+      27 分钟
     </span>
   
 
@@ -278,6 +278,18 @@ SqList Lb<span class="token punctuation">;</span><span aria-hidden="true" class=
     <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>L<span class="token punctuation">.</span>elem<span class="token punctuation">)</span> <span class="token function">exit</span><span class="token punctuation">(</span>OVERFLOW<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//L.elem为NULL 存储分配失败</span>
     L<span class="token punctuation">.</span>length <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
     L<span class="token punctuation">.</span>listsize <span class="token operator">=</span> LIST_INIT_SIZE<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> OK<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<ul>
+<li>销毁线性表</li>
+</ul>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c">status <span class="token function">DestroyList</span><span class="token punctuation">(</span>SqList<span class="token operator">&amp;</span> L<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>L<span class="token punctuation">.</span>elem<span class="token punctuation">)</span> <span class="token keyword">return</span> INFEASIBLE<span class="token punctuation">;</span>
+    <span class="token function">free</span><span class="token punctuation">(</span>L<span class="token punctuation">.</span>elem<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//销毁顺序表</span>
+    L<span class="token punctuation">.</span>elem<span class="token operator">=</span><span class="token constant">NULL</span><span class="token punctuation">;</span>
+    L<span class="token punctuation">.</span>length<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+    L<span class="token punctuation">.</span>listsize<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
     <span class="token keyword">return</span> OK<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
 <ul>
@@ -422,12 +434,6 @@ class="math inline">\(a_1\)</span>的节点。</p>
                   </div>
                 
               </div>
-              
-                <p class="note note-warning">
-                  
-                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
-                  
-                </p>
               
               
                 <div class="post-prevnext">
