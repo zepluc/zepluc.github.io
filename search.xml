@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>字符串学习笔记</title>
+    <url>/2022/03/28/21-00-26/</url>
+    <content><![CDATA[<h1 id="字符串">字符串</h1>
+<p>##串的定长顺序存储</p>
+]]></content>
+      <tags>
+        <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>数组和广义表</title>
     <url>/2022/04/07/14-02-31/</url>
     <content><![CDATA[<h1 id="数组和广义表">数组和广义表</h1>
@@ -12,6 +22,63 @@
 ]]></content>
       <tags>
         <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的第一次尝试</title>
+    <url>/2022/03/27/12-18-04/</url>
+    <content><![CDATA[<h1 id="hello-world">hello world</h1>
+<h2 id="hello-world-1">hello world</h2>
+<h3 id="hello-world-2">hello world</h3>
+<p>hello world <strong>hello world</strong> <em>hello world</em>
+<del>hello world</del> ==hello world==</p>
+<ul>
+<li>first
+<ul>
+<li>1.1
+<ul>
+<li>1.2</li>
+</ul></li>
+</ul></li>
+<li>second</li>
+</ul>
+<ol type="1">
+<li>好神奇
+<ol type="1">
+<li>太神奇了</li>
+<li>我是说<em>真的</em>很<strong>神奇</strong></li>
+</ol></li>
+</ol>
+<blockquote>
+<p>鲁迅曾说</p>
+</blockquote>
+<p><code>printf("hello world")</code>这样可以继续在一行内打字</p>
+<div class="code-wrapper"><pre class="line-numbers language-c&#123;.line-numbers&#125;<!--这个可以显示行数-->" data-language="c&#123;.line-numbers&#125;<!--这个可以显示行数-->"><code class="language-c&#123;.line-numbers&#125;<!--这个可以显示行数-->">printf(&quot;hello world&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
+<p><a href="https://theme-next.js.org/docs/">传送！</a> <img
+src="/img/posts/avatar.jpg" alt="一张图" /></p>
+<p>如果在这里我写了一段话 如果我不换行 那么我要换一行</p>
+<hr />
+<p>就是这样！</p>
+<figure>
+<img src="/img/posts/2022-03-27-12-43-38.jpg"
+alt="这是我粘贴来的图片！" />
+<figcaption aria-hidden="true">这是我粘贴来的图片！</figcaption>
+</figure>
+<p>下面是一些数学公式的尝试 <span
+class="math inline">\(x^2+y^2=1\)</span> 公式块:</p>
+<p><span class="math display">\[
+\begin{cases}
+x=\rho\cos\theta \\
+y=\rho\sin\theta \\
+\end{cases}
+\]</span></p>
+<p><span class="math display">\[x^3+y^3=\theta\]</span>两个好像可以居中
+<span class="math display">\[\mathbb{R}\]</span> <span
+class="math display">\[\frac{1}{2}\]</span> <span
+class="math display">\[\sqrt{1}\]</span></p>
+]]></content>
+      <tags>
+        <tag>markdown</tag>
       </tags>
   </entry>
   <entry>
@@ -280,16 +347,6 @@ front的情况。为了解决这个问题，可以保留一个元素空间，即
       </tags>
   </entry>
   <entry>
-    <title>字符串学习笔记</title>
-    <url>/2022/03/28/21-00-26/</url>
-    <content><![CDATA[<h1 id="字符串">字符串</h1>
-<p>##串的定长顺序存储</p>
-]]></content>
-      <tags>
-        <tag>数据结构</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>线性表学习笔记</title>
     <url>/2022/03/27/23-00-00/</url>
     <content><![CDATA[<h1 id="线性表">线性表</h1>
@@ -490,63 +547,6 @@ class="math inline">\(a_1\)</span>的节点。</p>
 ]]></content>
       <tags>
         <tag>数据结构</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>我的第一次尝试</title>
-    <url>/2022/03/27/12-18-04/</url>
-    <content><![CDATA[<h1 id="hello-world">hello world</h1>
-<h2 id="hello-world-1">hello world</h2>
-<h3 id="hello-world-2">hello world</h3>
-<p>hello world <strong>hello world</strong> <em>hello world</em>
-<del>hello world</del> ==hello world==</p>
-<ul>
-<li>first
-<ul>
-<li>1.1
-<ul>
-<li>1.2</li>
-</ul></li>
-</ul></li>
-<li>second</li>
-</ul>
-<ol type="1">
-<li>好神奇
-<ol type="1">
-<li>太神奇了</li>
-<li>我是说<em>真的</em>很<strong>神奇</strong></li>
-</ol></li>
-</ol>
-<blockquote>
-<p>鲁迅曾说</p>
-</blockquote>
-<p><code>printf("hello world")</code>这样可以继续在一行内打字</p>
-<div class="code-wrapper"><pre class="line-numbers language-c&#123;.line-numbers&#125;<!--这个可以显示行数-->" data-language="c&#123;.line-numbers&#125;<!--这个可以显示行数-->"><code class="language-c&#123;.line-numbers&#125;<!--这个可以显示行数-->">printf(&quot;hello world&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div>
-<p><a href="https://theme-next.js.org/docs/">传送！</a> <img
-src="/img/posts/avatar.jpg" alt="一张图" /></p>
-<p>如果在这里我写了一段话 如果我不换行 那么我要换一行</p>
-<hr />
-<p>就是这样！</p>
-<figure>
-<img src="/img/posts/2022-03-27-12-43-38.jpg"
-alt="这是我粘贴来的图片！" />
-<figcaption aria-hidden="true">这是我粘贴来的图片！</figcaption>
-</figure>
-<p>下面是一些数学公式的尝试 <span
-class="math inline">\(x^2+y^2=1\)</span> 公式块:</p>
-<p><span class="math display">\[
-\begin{cases}
-x=\rho\cos\theta \\
-y=\rho\sin\theta \\
-\end{cases}
-\]</span></p>
-<p><span class="math display">\[x^3+y^3=\theta\]</span>两个好像可以居中
-<span class="math display">\[\mathbb{R}\]</span> <span
-class="math display">\[\frac{1}{2}\]</span> <span
-class="math display">\[\sqrt{1}\]</span></p>
-]]></content>
-      <tags>
-        <tag>markdown</tag>
       </tags>
   </entry>
 </search>
