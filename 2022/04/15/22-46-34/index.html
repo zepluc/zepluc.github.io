@@ -1,0 +1,596 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zepluc">
+  <meta name="keywords" content="blog">
+  
+    <meta name="description" content="1.dijkstra算法 算法说明 可以理解为一种贪心+动态规划，主要解决带权重的有向图上单源最短路径问题，要求所有边的权重为非负值。 首先将图上的结点分为两个集合，一个集合\(S\)包含已经处理完毕的结点，另一个集合\(T\)包含待处理的结点。初始状态下，集合\(S\)内只有起始结点；在邻接矩阵内不相邻的两个点距离置为\(INF\)，\(dis[]\)置为\(INF\)。 每一次遍历处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图的单源最短路径算法">
+<meta property="og:url" content="https://zepluc.github.io/2022/04/15/22-46-34/index.html">
+<meta property="og:site_name" content="树洞一隅">
+<meta property="og:description" content="1.dijkstra算法 算法说明 可以理解为一种贪心+动态规划，主要解决带权重的有向图上单源最短路径问题，要求所有边的权重为非负值。 首先将图上的结点分为两个集合，一个集合\(S\)包含已经处理完毕的结点，另一个集合\(T\)包含待处理的结点。初始状态下，集合\(S\)内只有起始结点；在邻接矩阵内不相邻的两个点距离置为\(INF\)，\(dis[]\)置为\(INF\)。 每一次遍历处理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zepluc.github.io/img/posts/dijkstra_1.jpg">
+<meta property="article:published_time" content="2022-04-15T14:46:34.000Z">
+<meta property="article:modified_time" content="2022-04-15T14:51:11.852Z">
+<meta property="article:author" content="zepluc">
+<meta property="article:tag" content="离散数学">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zepluc.github.io/img/posts/dijkstra_1.jpg">
+  
+  
+  <title>图的单源最短路径算法 - 树洞一隅</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      
+        
+          
+          
+          
+        
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism-okaidia.min.css" />
+      
+      
+        <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
+      
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"zepluc.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>zepluc</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/bg/1.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="图的单源最短路径算法">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-15 22:46" pubdate>
+        2022年4月15日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">图的单源最短路径算法</h1>
+            
+            <div class="markdown-body">
+              <h1 id="dijkstra算法">1.dijkstra算法</h1>
+<h2 id="算法说明">算法说明</h2>
+<p>可以理解为一种贪心+动态规划，主要解决带权重的有向图上单源最短路径问题，要求所有边的权重为非负值。</p>
+<p>首先将图上的结点分为两个集合，一个集合<span
+class="math inline">\(S\)</span>包含已经处理完毕的结点，另一个集合<span
+class="math inline">\(T\)</span>包含待处理的结点。初始状态下，集合<span
+class="math inline">\(S\)</span>内只有起始结点；在邻接矩阵内不相邻的两个点距离置为<span
+class="math inline">\(INF\)</span>，<span
+class="math inline">\(dis[]\)</span>置为<span
+class="math inline">\(INF\)</span>。</p>
+<p>每一次遍历处理一个结点，因此共需要(n-1)次遍历。在每一次遍历中，寻找距离起始结点距离最近的结点，加入<span
+class="math inline">\(S\)</span>，踢出<span
+class="math inline">\(T\)</span>。然后再根据这个结点的<span
+class="math inline">\(dis\)</span>，遍历其余结点，更新它们到起始结点的距离。</p>
+<p><img src="/img/posts/dijkstra_1.jpg" srcset="/img/loading.gif" lazyload /></p>
+<p><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/heroacool/article/details/51014824">以上图解来自此blog</a></p>
+<h2 id="代码">代码</h2>
+<div class="code-wrapper"><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">MAX</span> <span class="token expression"><span class="token number">100</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">INF</span> <span class="token expression"><span class="token number">100000</span></span></span>
+
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_graph</span> 
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> vexnum<span class="token punctuation">;</span> <span class="token comment">//顶点数</span>
+    <span class="token keyword">int</span> edgnum<span class="token punctuation">;</span> <span class="token comment">//边数</span>
+    <span class="token keyword">int</span> matrix<span class="token punctuation">[</span>MAX<span class="token punctuation">]</span><span class="token punctuation">[</span>MAX<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//邻接矩阵</span>
+<span class="token punctuation">&#125;</span>Graph<span class="token punctuation">,</span> <span class="token operator">*</span>PGragh<span class="token punctuation">;</span>
+
+Graph G<span class="token punctuation">;</span>
+<span class="token keyword">int</span> dis<span class="token punctuation">[</span>MAX<span class="token punctuation">]</span><span class="token punctuation">,</span>vis<span class="token punctuation">[</span>MAX<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">//两个集合</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token comment">/*初始化*/</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"请输入结点个数和边的数目:\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>G<span class="token punctuation">.</span>vexnum<span class="token punctuation">,</span> <span class="token operator">&amp;</span>G<span class="token punctuation">.</span>edgnum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span>G<span class="token punctuation">.</span>vexnum<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        dis<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> INF<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> start<span class="token punctuation">,</span> end<span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"请输入边的起点、边的终点与边的权值:\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span>G<span class="token punctuation">.</span>edgnum<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>start<span class="token punctuation">,</span><span class="token operator">&amp;</span>end<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>G<span class="token punctuation">.</span>matrix<span class="token punctuation">[</span>start<span class="token punctuation">]</span><span class="token punctuation">[</span>end<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        G<span class="token punctuation">.</span>matrix<span class="token punctuation">[</span>end<span class="token punctuation">]</span><span class="token punctuation">[</span>start<span class="token punctuation">]</span> <span class="token operator">=</span> G<span class="token punctuation">.</span>matrix<span class="token punctuation">[</span>start<span class="token punctuation">]</span><span class="token punctuation">[</span>end<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"请输入想要寻找最短路径的起点：\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>start<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">/*dijkstra*/</span>
+    dis<span class="token punctuation">[</span>start<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    vis<span class="token punctuation">[</span>start<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span>G<span class="token punctuation">.</span>vexnum<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token comment">//dis数组初始化</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>G<span class="token punctuation">.</span>matrix<span class="token punctuation">[</span>start<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            dis<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> G<span class="token punctuation">.</span>matrix<span class="token punctuation">[</span>start<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span>G<span class="token punctuation">.</span>vexnum<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token comment">//循环G.vexnum - 1次</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> min <span class="token operator">=</span> INF<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> j<span class="token operator">&lt;</span>G<span class="token punctuation">.</span>vexnum<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>vis<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> dis<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">&lt;</span>min<span class="token punctuation">)</span><span class="token comment">//遍历找dis最近的结点</span>
+            <span class="token punctuation">&#123;</span>
+                min <span class="token operator">=</span> dis<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                k <span class="token operator">=</span> j<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        vis<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><span class="token comment">//将k结点加入已处理集合</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> j<span class="token operator">&lt;</span>G<span class="token punctuation">.</span>vexnum<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token comment">//更新其它结点的dis</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>G<span class="token punctuation">.</span>matrix<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">!=</span><span class="token number">0</span> <span class="token operator">&amp;&amp;</span> dis<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">></span>dis<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token operator">+</span>G<span class="token punctuation">.</span>matrix<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>vis<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span>
+                dis<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> dis<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token operator">+</span>G<span class="token punctuation">.</span>matrix<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">/*输出*/</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"结点%d到各个结点的最短距离分别为:\n"</span><span class="token punctuation">,</span>start<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span>G<span class="token punctuation">.</span>vexnum<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"dis[%d] = %d\n"</span><span class="token punctuation">,</span>i<span class="token punctuation">,</span>dis<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div>
+<h2 id="证明及分析">证明及分析</h2>
+<p>使用<strong>数学归纳法</strong>，证明dijkstra算法产生无向联通加权图中两个顶点<span
+class="math inline">\(a\)</span>与<span
+class="math inline">\(z\)</span>之间最短通路的长度。</p>
+<p>归纳假设：</p>
+<p>  （1）集合<span
+class="math inline">\(S\)</span>内的顶点v对应的dis[v]是从a到v的最短通路长度。</p>
+<p>  （2）集合<span
+class="math inline">\(T\)</span>中的顶点u对应的dis[u]应当是仅仅包含<span
+class="math inline">\(S\)</span>中顶点的从a到u的最短通路的长度。</p>
+<p>当k=0时，基础步骤显然成立。</p>
+<p>假设对于第<span
+class="math inline">\(k\)</span>次迭代，归纳假设成立。设<span
+class="math inline">\(v\)</span>是第<span
+class="math inline">\(k+1\)</span>次迭代时添加到<span
+class="math inline">\(S\)</span>中的顶点，这说明<span
+class="math inline">\(v\)</span>是第<span
+class="math inline">\(k\)</span>次迭代结束后<span
+class="math inline">\(dis\)</span>最小的集合T中的顶点。</p>
+<p>根据归纳假设，在第<span
+class="math inline">\(k+1\)</span>次迭代之前，集合<span
+class="math inline">\(S\)</span>中的顶点的<span
+class="math inline">\(dis\)</span>都对应着从<span
+class="math inline">\(a\)</span>到这个顶点的最短通路长度。<span
+class="math inline">\(dis[v]\)</span>也一定是从a到v的最短路径长度。假如情况不是这样，那么第<span
+class="math inline">\(k\)</span>次迭代结束后，可能存在包含集合<span
+class="math inline">\(T\)</span>中顶点的路径长度小于<span
+class="math inline">\(dis[v]\)</span>。不妨假设这个集合T中的第一个顶点是<span
+class="math inline">\(u\)</span>，那么一定存在仅包含<span
+class="math inline">\(S\)</span>中顶点的从<span
+class="math inline">\(a\)</span>到<span
+class="math inline">\(u\)</span>的路径长度<span
+class="math inline">\(dis[u]&lt;dis[v]\)</span>，与<span
+class="math inline">\(v\)</span>的选择相矛盾，因此在第<span
+class="math inline">\(k+1\)</span>次迭代时（1）成立。</p>
+<p>设<span class="math inline">\(u\)</span>是第<span
+class="math inline">\(k+1\)</span>次迭代后不属于<span
+class="math inline">\(S\)</span>的一个顶点。只包含<span
+class="math inline">\(S\)</span>中顶点的从a到<span
+class="math inline">\(u\)</span>的最短通路要么包含<span
+class="math inline">\(v\)</span>，要么不包含<span
+class="math inline">\(v\)</span>。当这条最短通路不包含v的时候，路径长度就是<span
+class="math inline">\(dis[u]\)</span>；当这条最短通路包含v的时候，<span
+class="math inline">\(dis[u]\)</span>更新为<span
+class="math inline">\(dis[v]+matrix[v][u]\)</span>。这说明<span
+class="math inline">\(dis[u]\)</span> = min{<span
+class="math inline">\(dis[u]\)</span>,<span
+class="math inline">\(dis[v]+matrix[v][u]\)</span>}，也就是（2）成立。</p>
+<p><strong>时间复杂度分析</strong></p>
+<p>迭代次数不超过n-1次，其中n是图中顶点的个数。在每次迭代中，使用最多(n-1)次比较找到新进入集合S的顶点；找到顶点后，又需要使用一次加法和一次比较更新dis，不超过2(n-1)次运算，因此得到总的时间复杂度<span
+class="math inline">\(O(n^2)\)</span>。</p>
+<h1 id="floyd算法">2.Floyd算法</h1>
+<h1 id="bellman-ford算法">3.Bellman-Ford算法</h1>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%A6%BB%E6%95%A3%E6%95%B0%E5%AD%A6/">离散数学</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/13/19-13-41/">
+                        <span class="hidden-mobile">kosaraju算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+    
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
